@@ -1,0 +1,151 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Admin Utama",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "role": "admin",
+      "phone": "081234567890"
+    },
+    {
+      "id": "2",
+      "name": "Penjual Sari Rasa",
+      "email": "penjual@example.com",
+      "password": "penjual123",
+      "role": "penjual",
+      "phone": "082345678901"
+    },
+    {
+      "id": "3",
+      "name": "User Biasa",
+      "email": "user@example.com",
+      "password": "user123",
+      "role": "user",
+      "phone": "083456789012"
+    },
+    {
+      "id": "137e",
+      "name": "tes4",
+      "email": "tes4@gmail.com",
+      "password": "tes4",
+      "role": "penjual"
+    },
+    {
+      "id": "5b2c",
+      "name": "tes3",
+      "email": "tes3@gmail.com",
+      "password": "tes3",
+      "role": "user"
+    }
+  ],
+  "restaurants": [
+    {
+      "id": "1",
+      "name": "Sari Rasa",
+      "description": "Restoran masakan tradisional dengan cita rasa khas Indonesia.",
+      "address": "Jl. Merdeka No. 10, Jakarta",
+      "image": "https://via.placeholder.com/600x400?text=Sari+Rasa",
+      "ownerId": 2,
+      "verified": true,
+      "menu": [
+        {
+          "id": 1,
+          "name": "Nasi Goreng Spesial",
+          "description": "Nasi goreng dengan bumbu rahasia dan topping ayam suwir.",
+          "price": 25000,
+          "category": "makanan",
+          "image": "https://via.placeholder.com/150?text=Nasi+Goreng",
+          "stock": 10
+        },
+        {
+          "id": 2,
+          "name": "Es Teh Manis",
+          "description": "Teh manis segar dengan es batu.",
+          "price": 8000,
+          "category": "minuman",
+          "image": "https://via.placeholder.com/150?text=Es+Teh",
+          "stock": 20
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Kopi Mantap",
+      "description": "Kedai kopi dengan berbagai jenis kopi lokal dan internasional.",
+      "address": "Jl. Sudirman No. 5, Bandung",
+      "image": "https://via.placeholder.com/600x400?text=Kopi+Mantap",
+      "ownerId": 2,
+      "verified": true,
+      "menu": [
+        {
+          "id": 3,
+          "name": "Espresso",
+          "description": "Kopi espresso pekat dan nikmat.",
+          "price": 15000,
+          "category": "minuman",
+          "image": "https://via.placeholder.com/150?text=Espresso",
+          "stock": 15
+        }
+      ]
+    }
+  ],
+  "menus": [
+    {
+      "id": "1",
+      "restaurantId": 1,
+      "name": "Nasi Goreng Spesial",
+      "description": "Nasi goreng dengan bumbu rahasia dan topping ayam suwir.",
+      "price": 25000,
+      "category": "makanan",
+      "image": "https://via.placeholder.com/150?text=Nasi+Goreng",
+      "stock": 10
+    },
+    {
+      "id": "2",
+      "restaurantId": 1,
+      "name": "Es Teh Manis",
+      "description": "Teh manis segar dengan es batu.",
+      "price": 8000,
+      "category": "minuman",
+      "image": "https://via.placeholder.com/150?text=Es+Teh",
+      "stock": 20
+    },
+    {
+      "id": "3",
+      "restaurantId": 2,
+      "name": "Espresso",
+      "description": "Kopi espresso pekat dan nikmat.",
+      "price": 15000,
+      "category": "minuman",
+      "image": "https://via.placeholder.com/150?text=Espresso",
+      "stock": 15
+    }
+  ],
+  "orders": [
+    {
+      "id": "1",
+      "userId": 3,
+      "restaurantId": 1,
+      "items": [
+        {
+          "menuId": 1,
+          "name": "Nasi Goreng Spesial",
+          "price": 25000,
+          "quantity": 2
+        }
+      ],
+      "total": 50000,
+      "status": "completed",
+      "date": "2025-06-01T12:00:00Z"
+    }
+  ],
+  "reports": [
+    {
+      "id": "1",
+      "adminId": 1,
+      "content": "Laporan penjualan bulan Juni: total penjualan meningkat 20%.",
+      "date": "2025-06-28T08:00:00Z"
+    }
+  ]
+}
