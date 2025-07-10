@@ -1,57 +1,40 @@
 <template>
   <div id="app">
-    <Navbar />
-    <main class="main-content">
-      <router-view />
-    </main>
-    <Footer />
+    <router-view />
   </div>
 </template>
 
-<script setup>
-import { onMounted } from 'vue'
-import Navbar from '@/components/Navbar.vue'
-import Footer from '@/components/Footer.vue' // Import Footer component
-import { useAuthStore } from '@/stores/authStore'
-import { useCartStore } from '@/stores/cartStore'
-
-const authStore = useAuthStore()
-const cartStore = useCartStore()
-
-onMounted(() => {
-  authStore.loadUserFromStorage()     // ✅ Muat user dari localStorage
-  cartStore.loadFromStorage()         // ✅ Muat cart user dari localStorage
-})
+<script>
+export default {
+  name: 'App', // Nama komponen root
+  // Tidak ada komponen lain yang diimpor langsung di sini
+  // karena App.vue hanya merender layout melalui <router-view>
+};
 </script>
 
 <style>
-body {
+/* CSS Global untuk elemen #app dan body */
+/* Variabel CSS dan reset sudah didefinisikan di base.css */
+
+html, body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9f9f9;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif; /* Pastikan font dasar konsisten */
+  color: #333;
+  overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
+  scroll-behavior: smooth; /* Untuk smooth scrolling link anchor */
+  /* background-color: #f8f9fa; Jika ingin background keseluruhan di sini */
 }
 
 #app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  /*
+    Secara default di main.js kita menyembunyikan #app sampai semua dimuat.
+    Kemudian main.js akan mengubahnya menjadi display: block;
+  */
+  display: none; /* Sembunyikan #app sampai diaktifkan oleh main.js */
+  min-height: 100vh; /* Pastikan elemen #app memiliki tinggi minimum penuh viewport */
+  display: flex; /* Aktifkan flexbox untuk menampung layout jika diperlukan */
+  flex-direction: column; /* Atur arah flex menjadi kolom */
 }
 
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Responsive padding */
-@media (max-width: 768px) {
-  .main-content {
-    padding: 1rem;
-  }
-}
 </style>

@@ -1,0 +1,191 @@
+/* src/assets/css/typography.css */
+
+/* Penting: Pastikan `base.css` diimpor sebelum file ini di `main.js`
+   agar variabel CSS seperti --font-heading, --font-body, dan warna tersedia. */
+
+/* --- 1. Font Family & Rendering --- */
+body {
+    /* Font family dan ukuran dasar sudah diatur di base.css */
+    /* Re-confirming font-family for explicit clarity, but it should inherit from base.css body rules */
+    font-family: var(--font-body);
+    color: var(--text-dark);
+  }
+  
+  /* Rendering font yang lebih halus untuk tampilan yang lebih tajam */
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* --- 2. Heading Styles (H1 - H6) --- */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    line-height: 1.2;
+    color: var(--text-dark);
+    font-weight: 700; /* Default bold for headings */
+    margin-top: 1em; /* Margin atas untuk memisahkan dari konten sebelumnya */
+    margin-bottom: 0.5em; /* Margin bawah untuk memisahkan dari konten setelahnya */
+  }
+  
+  h1 {
+    font-size: 3.2em; /* Ukuran yang besar, biasanya untuk hero title */
+    font-weight: 700;
+    letter-spacing: -0.02em; /* Sedikit jarak antar huruf untuk estetika */
+  }
+  
+  h2 {
+    font-size: 2.5em; /* Untuk judul section utama */
+    font-weight: 600;
+    color: var(--primary-color); /* Judul section sering pakai warna primer */
+  }
+  
+  h3 {
+    font-size: 1.8em; /* Untuk sub-judul atau judul card */
+    font-weight: 600;
+  }
+  
+  h4 {
+    font-size: 1.4em; /* Untuk sub-judul lebih kecil */
+    font-weight: 500;
+  }
+  
+  h5 {
+    font-size: 1.1em; /* Untuk judul kecil atau daftar */
+    font-weight: 500;
+  }
+  
+  h6 {
+    font-size: 1em; /* Ukuran paling kecil, bisa untuk label */
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--text-light);
+  }
+  
+  /* --- 3. Paragraph & Text Styles --- */
+  p {
+    font-size: 1em; /* Ukuran font dasar untuk paragraf */
+    line-height: 1.7; /* Line height yang nyaman untuk dibaca */
+    color: var(--text-medium); /* Warna teks paragraf */
+    margin-bottom: 1em; /* Margin bawah untuk memisahkan paragraf */
+  }
+  
+  /* Untuk teks yang lebih menonjol */
+  p.lead {
+    font-size: 1.15em;
+    font-weight: 400;
+    color: var(--text-dark);
+  }
+  
+  /* Untuk teks kecil (misal: copyright, catatan kaki) */
+  small, .text-small {
+    font-size: 0.85em;
+    color: var(--text-light);
+  }
+  
+  /* --- 4. Link Styles (override basic a styles from base.css) --- */
+  a {
+    color: var(--primary-color); /* Link berwarna primer secara default */
+    text-decoration: none;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+  }
+  
+  a:hover {
+    color: darken(var(--primary-color), 10%); /* Jika pakai SCSS */
+    color: #800; /* Jika pakai Vanilla CSS */
+    text-decoration: underline; /* Munculkan underline saat hover */
+  }
+  
+  /* Untuk link dalam tombol (jika ada) yang harus tetap styled seperti tombol */
+  a.btn {
+    text-decoration: none; /* Pastikan tidak ada underline tambahan */
+  }
+  
+  /* --- 5. List Styles --- */
+  ul, ol {
+    line-height: 1.7;
+    color: var(--text-medium);
+    margin-bottom: 1em;
+  }
+  
+  ul {
+    /* Jika Anda ingin bullet point kustom, bisa di sini */
+    list-style: none; /* Sudah di base.css, tapi bisa diulang untuk clarity */
+    padding-left: 0;
+  }
+  
+  ul li {
+    margin-bottom: 0.5em;
+    position: relative;
+    padding-left: 1.2em; /* Ruang untuk custom bullet/icon */
+  }
+  
+  /* Contoh custom bullet point */
+  ul li::before {
+    content: '\2022'; /* Unicode bullet point */
+    color: var(--primary-color); /* Warna bullet point */
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+  }
+  
+  ol {
+    list-style: decimal; /* Nomor default */
+    padding-left: 1.5em; /* Padding untuk nomor */
+  }
+  
+  /* --- 6. Strong, Em, Blockquote --- */
+  strong {
+    font-weight: 700;
+    color: var(--text-dark);
+  }
+  
+  em {
+    font-style: italic;
+    color: var(--text-light);
+  }
+  
+  blockquote {
+    font-family: var(--font-heading);
+    font-size: 1.5em;
+    line-height: 1.5;
+    color: var(--text-medium);
+    border-left: 4px solid var(--primary-color);
+    padding-left: var(--spacing-md);
+    margin: var(--spacing-xl) 0;
+    font-style: italic;
+  }
+  
+  blockquote cite {
+    display: block;
+    font-size: 0.9em;
+    margin-top: 10px;
+    color: var(--text-light);
+    font-style: normal;
+  }
+  
+  /* --- 7. Responsive Typography (Optional, but recommended) --- */
+  /* Menyesuaikan ukuran font secara adaptif */
+  @media (max-width: 1200px) {
+    h1 { font-size: 2.8em; }
+    h2 { font-size: 2.2em; }
+    h3 { font-size: 1.6em; }
+    p { font-size: 0.95em; }
+  }
+  
+  @media (max-width: 768px) {
+    h1 { font-size: 2.2em; }
+    h2 { font-size: 1.8em; }
+    h3 { font-size: 1.4em; }
+    p { font-size: 0.9em; }
+    blockquote { font-size: 1.2em; }
+    section { padding: var(--spacing-xl) var(--spacing-sm); } /* Sesuaikan padding section */
+  }
+  
+  @media (max-width: 480px) {
+    h1 { font-size: 1.8em; }
+    h2 { font-size: 1.5em; }
+    h3 { font-size: 1.2em; }
+    p { font-size: 0.85em; }
+    blockquote { font-size: 1em; }
+    section { padding: var(--spacing-lg) var(--spacing-xs); }
+  }

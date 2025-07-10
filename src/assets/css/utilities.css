@@ -1,0 +1,116 @@
+/* src/assets/css/utilities.css */
+
+/* Penting: Pastikan `base.css` diimpor sebelum file ini di `main.js`
+   agar variabel CSS seperti --spacing-md, --text-dark, dll. tersedia. */
+
+/* --- 1. Spacing Utilities (Margin & Padding) --- */
+/* Margin Bottom */
+.mb-xs { margin-bottom: var(--spacing-xs, 8px); }
+.mb-sm { margin-bottom: var(--spacing-sm, 15px); }
+.mb-md { margin-bottom: var(--spacing-md, 20px); }
+.mb-lg { margin-bottom: var(--spacing-lg, 30px); }
+.mb-xl { margin-bottom: var(--spacing-xl, 40px); }
+.mb-xxl { margin-bottom: var(--spacing-xxl, 60px); }
+.mb-0 { margin-bottom: 0 !important; } /* Meng override jika ada default margin */
+
+/* Margin Top */
+.mt-xs { margin-top: var(--spacing-xs, 8px); }
+.mt-sm { margin-top: var(--spacing-sm, 15px); }
+.mt-md { margin-top: var(--spacing-md, 20px); }
+.mt-lg { margin-top: var(--spacing-lg, 30px); }
+.mt-xl { margin-top: var(--spacing-xl, 40px); }
+.mt-xxl { margin-top: var(--spacing-xxl, 60px); }
+.mt-0 { margin-top: 0 !important; }
+
+/* Padding All Sides */
+.p-xs { padding: var(--spacing-xs, 8px); }
+.p-sm { padding: var(--spacing-sm, 15px); }
+.p-md { padding: var(--spacing-md, 20px); }
+.p-lg { padding: var(--spacing-lg, 30px); }
+.p-xl { padding: var(--spacing-xl, 40px); }
+.p-xxl { padding: var(--spacing-xxl, 60px); }
+.p-0 { padding: 0 !important; }
+
+/* Padding Horizontal (Left & Right) */
+.px-xs { padding-left: var(--spacing-xs, 8px); padding-right: var(--spacing-xs, 8px); }
+.px-sm { padding-left: var(--spacing-sm, 15px); padding-right: var(--spacing-sm, 15px); }
+.px-md { padding-left: var(--spacing-md, 20px); padding-right: var(--spacing-md, 20px); }
+.px-lg { padding-left: var(--spacing-lg, 30px); padding-right: var(--spacing-lg, 30px); }
+
+/* Padding Vertical (Top & Bottom) */
+.py-xs { padding-top: var(--spacing-xs, 8px); padding-bottom: var(--spacing-xs, 8px); }
+.py-sm { padding-top: var(--spacing-sm, 15px); padding-bottom: var(--spacing-sm, 15px); }
+.py-md { padding-top: var(--spacing-md, 20px); padding-bottom: var(--spacing-md, 20px); }
+.py-lg { padding-top: var(--spacing-lg, 30px); padding-bottom: var(--spacing-lg, 30px); }
+
+
+/* --- 2. Text Alignment --- */
+.text-left { text-align: left !important; }
+.text-center { text-align: center !important; }
+.text-right { text-align: right !important; }
+
+/* --- 3. Text Color Utilities --- */
+.text-primary { color: var(--primary-color, #A00) !important; }
+.text-secondary { color: var(--text-medium, #555) !important; }
+.text-light { color: var(--text-light, #777) !important; }
+.text-white { color: var(--text-white, #FFF) !important; }
+.text-dark { color: var(--text-dark, #333) !important; }
+
+/* --- 4. Display & Visibility --- */
+.d-none { display: none !important; }
+.d-block { display: block !important; }
+.d-inline-block { display: inline-block !important; }
+.d-flex { display: flex !important; } /* Sudah ada di layout.css, tapi bisa diulang */
+
+.visibility-hidden { visibility: hidden !important; }
+.opacity-0 { opacity: 0 !important; }
+.opacity-100 { opacity: 1 !important; }
+
+/* --- 5. Border Radius Utilities --- */
+.rounded-sm { border-radius: var(--border-radius-sm, 5px) !important; }
+.rounded-md { border-radius: var(--border-radius-md, 8px) !important; }
+.rounded-lg { border-radius: var(--border-radius-lg, 12px) !important; }
+.rounded-full { border-radius: 9999px !important; } /* Untuk lingkaran sempurna */
+.rounded-0 { border-radius: 0 !important; }
+
+/* --- 6. Shadow Utilities --- */
+.shadow-sm { box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important; }
+.shadow-md { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important; }
+.shadow-lg { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important; }
+.shadow-none { box-shadow: none !important; }
+
+/* --- 7. Responsive Utilities (Optional, jika ingin granular control) --- */
+/* Contoh responsive display:
+   .d-sm-none { display: none !important; } di layar kecil,
+   .d-md-block { display: block !important; } di layar sedang ke atas.
+*/
+
+/* Small devices (>= 576px) */
+@media (min-width: 576px) {
+  .mb-sm-0 { margin-bottom: 0 !important; }
+  /* ... tambahkan utility responsive lainnya jika diperlukan */
+}
+
+/* Medium devices (>= 768px) */
+@media (min-width: 768px) {
+  .mb-md-0 { margin-bottom: 0 !important; }
+  .d-md-block { display: block !important; }
+  .d-md-flex { display: flex !important; }
+  .text-md-left { text-align: left !important; }
+  .text-md-center { text-align: center !important; }
+  .text-md-right { text-align: right !important; }
+}
+
+/* Large devices (>= 992px) */
+@media (min-width: 992px) {
+  .mb-lg-0 { margin-bottom: 0 !important; }
+  .d-lg-block { display: block !important; }
+  .d-lg-flex { display: flex !important; }
+}
+
+/* Extra large devices (>= 1200px) */
+@media (min-width: 1200px) {
+  .mb-xl-0 { margin-bottom: 0 !important; }
+  .d-xl-block { display: block !important; }
+  .d-xl-flex { display: flex !important; }
+}

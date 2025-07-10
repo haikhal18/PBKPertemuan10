@@ -1,151 +1,62 @@
 {
   "users": [
-    {
-      "id": "1",
-      "name": "Admin Utama",
-      "email": "admin@example.com",
-      "password": "admin123",
-      "role": "admin",
-      "phone": "081234567890"
-    },
-    {
-      "id": "2",
-      "name": "Penjual Sari Rasa",
-      "email": "penjual@example.com",
-      "password": "penjual123",
-      "role": "penjual",
-      "phone": "082345678901"
-    },
-    {
-      "id": "3",
-      "name": "User Biasa",
-      "email": "user@example.com",
-      "password": "user123",
-      "role": "user",
-      "phone": "083456789012"
-    },
-    {
-      "id": "137e",
-      "name": "tes4",
-      "email": "tes4@gmail.com",
-      "password": "tes4",
-      "role": "penjual"
-    },
-    {
-      "id": "5b2c",
-      "name": "tes3",
-      "email": "tes3@gmail.com",
-      "password": "tes3",
-      "role": "user"
-    }
+    { "id": 1, "username": "admin1", "password": "password", "role": "admin", "email": "admin@example.com" },
+    { "id": 2, "username": "karyawan1", "password": "password", "role": "karyawan", "email": "karyawan@example.com" },
+    { "id": 3, "username": "user1", "password": "password", "role": "user", "email": "user@example.com" }
   ],
-  "restaurants": [
-    {
-      "id": "1",
-      "name": "Sari Rasa",
-      "description": "Restoran masakan tradisional dengan cita rasa khas Indonesia.",
-      "address": "Jl. Merdeka No. 10, Jakarta",
-      "image": "https://via.placeholder.com/600x400?text=Sari+Rasa",
-      "ownerId": 2,
-      "verified": true,
-      "menu": [
-        {
-          "id": 1,
-          "name": "Nasi Goreng Spesial",
-          "description": "Nasi goreng dengan bumbu rahasia dan topping ayam suwir.",
-          "price": 25000,
-          "category": "makanan",
-          "image": "https://via.placeholder.com/150?text=Nasi+Goreng",
-          "stock": 10
-        },
-        {
-          "id": 2,
-          "name": "Es Teh Manis",
-          "description": "Teh manis segar dengan es batu.",
-          "price": 8000,
-          "category": "minuman",
-          "image": "https://via.placeholder.com/150?text=Es+Teh",
-          "stock": 20
-        }
-      ]
-    },
-    {
-      "id": "2",
-      "name": "Kopi Mantap",
-      "description": "Kedai kopi dengan berbagai jenis kopi lokal dan internasional.",
-      "address": "Jl. Sudirman No. 5, Bandung",
-      "image": "https://via.placeholder.com/600x400?text=Kopi+Mantap",
-      "ownerId": 2,
-      "verified": true,
-      "menu": [
-        {
-          "id": 3,
-          "name": "Espresso",
-          "description": "Kopi espresso pekat dan nikmat.",
-          "price": 15000,
-          "category": "minuman",
-          "image": "https://via.placeholder.com/150?text=Espresso",
-          "stock": 15
-        }
-      ]
-    }
-  ],
-  "menus": [
-    {
-      "id": "1",
-      "restaurantId": 1,
-      "name": "Nasi Goreng Spesial",
-      "description": "Nasi goreng dengan bumbu rahasia dan topping ayam suwir.",
-      "price": 25000,
-      "category": "makanan",
-      "image": "https://via.placeholder.com/150?text=Nasi+Goreng",
-      "stock": 10
-    },
-    {
-      "id": "2",
-      "restaurantId": 1,
-      "name": "Es Teh Manis",
-      "description": "Teh manis segar dengan es batu.",
-      "price": 8000,
-      "category": "minuman",
-      "image": "https://via.placeholder.com/150?text=Es+Teh",
-      "stock": 20
-    },
-    {
-      "id": "3",
-      "restaurantId": 2,
-      "name": "Espresso",
-      "description": "Kopi espresso pekat dan nikmat.",
-      "price": 15000,
-      "category": "minuman",
-      "image": "https://via.placeholder.com/150?text=Espresso",
-      "stock": 15
-    }
+  "menu": [
+    { "id": 1, "name": "Nasi Goreng Spesial", "description": "Nasi goreng dengan ayam, udang, dan telur mata sapi.", "price": 25000, "category": "Makanan Utama", "image": "/images/menu/nasi-goreng.jpg" },
+    { "id": 2, "name": "Mie Ayam Bakso", "description": "Mie dengan ayam cincang, bakso, dan sawi hijau.", "price": 22000, "category": "Makanan Utama", "image": "/images/menu/mie-ayam.jpg" },
+    { "id": 3, "name": "Es Teh Manis", "description": "Teh hitam dingin dengan gula.", "price": 5000, "category": "Minuman", "image": "/images/menu/es-teh.jpg" },
+    { "id": 4, "name": "Kopi Susu", "description": "Kopi dengan susu kental manis.", "price": 10000, "category": "Minuman", "image": "/images/menu/kopi-susu.jpg" },
+    { "id": 5, "name": "Kentang Goreng", "description": "Kentang goreng renyah dengan saus.", "price": 15000, "category": "Camilan", "image": "/images/menu/kentang-goreng.jpg" }
   ],
   "orders": [
+    { "id": 1, "userId": 3, "items": [{ "menuId": 1, "name": "Nasi Goreng Spesial", "price": 25000, "quantity": 1 }], "totalPrice": 25000, "status": "pending", "orderDate": "2024-07-10T10:00:00Z" },
+    { "id": 2, "userId": 3, "items": [{ "menuId": 3, "name": "Es Teh Manis", "price": 5000, "quantity": 2 }], "totalPrice": 10000, "status": "completed", "orderDate": "2024-07-09T15:30:00Z" }
+  ],
+  "reservations": [
     {
-      "id": "1",
-      "userId": 3,
-      "restaurantId": 1,
-      "items": [
-        {
-          "menuId": 1,
-          "name": "Nasi Goreng Spesial",
-          "price": 25000,
-          "quantity": 2
-        }
-      ],
-      "total": 50000,
-      "status": "completed",
-      "date": "2025-06-01T12:00:00Z"
+      "id": 1,
+      "name": "Budi Santoso",
+      "phone": "081234567890",
+      "email": "budi@example.com",
+      "date": "2025-07-15",
+      "time": "19:00",
+      "guests": 4,
+      "notes": "Ulang tahun",
+      "status": "pending",
+      "tableId": null
+    },
+    {
+      "id": 2,
+      "name": "Siti Aminah",
+      "phone": "087654321098",
+      "email": "siti@example.com",
+      "date": "2025-07-16",
+      "time": "12:30",
+      "guests": 2,
+      "notes": "",
+      "status": "confirmed",
+      "tableId": 1
     }
   ],
-  "reports": [
-    {
-      "id": "1",
-      "adminId": 1,
-      "content": "Laporan penjualan bulan Juni: total penjualan meningkat 20%.",
-      "date": "2025-06-28T08:00:00Z"
-    }
+  "gallery": [
+    { "id": 1, "image": "/images/gallery/gallery1.jpg", "caption": "Suasana makan malam yang nyaman" },
+    { "id": 2, "image": "/images/gallery/gallery2.jpg", "caption": "Hidangan spesial kami" },
+    { "id": 3, "image": "/images/gallery/gallery3.jpg", "caption": "Interior modern dan elegan" }
+  ],
+  "contact-messages": [
+    { "id": 1, "name": "Pengunjung A", "email": "a@example.com", "subject": "Pertanyaan Umum", "message": "Apakah ada diskon untuk mahasiswa?", "timestamp": "2024-07-01T08:00:00Z" }
+  ],
+  "settings": [
+    { "id": 1, "restaurantName": "Restoran Lezat", "address": "Jl. Kenangan No. 123, Jakarta", "phone": "(021) 1234567", "email": "info@restoranlezat.com", "openingHours": "Senin-Minggu: 10:00 - 22:00" }
+  ],
+  "tables": [
+    { "id": 1, "number": 1, "capacity": 4, "status": "reserved", "currentOccupancy": null, "reservedBy": "Siti Aminah", "notes": "", "currentReservationId": 2 },
+    { "id": 2, "number": 2, "capacity": 2, "status": "occupied", "currentOccupancy": 2, "reservedBy": null, "notes": "Perlu dibersihkan segera", "currentReservationId": null },
+    { "id": 3, "number": 3, "capacity": 6, "status": "available", "currentOccupancy": null, "reservedBy": null, "notes": "", "currentReservationId": null },
+    { "id": 4, "number": 4, "capacity": 4, "status": "cleaning", "currentOccupancy": null, "reservedBy": null, "notes": "", "currentReservationId": null },
+    { "id": 5, "number": 5, "capacity": 2, "status": "available", "currentOccupancy": null, "reservedBy": null, "notes": "", "currentReservationId": null }
   ]
 }

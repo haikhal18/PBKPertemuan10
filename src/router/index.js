@@ -1,205 +1,240 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { useAuthStore } from '@/stores/authStore'
+// src/router/index.js
+import { createRouter, createWebHistory } from 'vue-router';
+import { useAuthStore } from '@/stores/auth'; // Impor Pinia auth store
 
-// Umum
-import Home from '@/pages/Home.vue'
-import Login from '@/pages/Login.vue'
-import Register from '@/pages/Register.vue'
-import Profil from '@/pages/Profil.vue'
+// --- Import Layouts ---
+import DefaultLayout from '@/layouts/DefaultLayout.vue';
+import AdminLayout from '@/layouts/AdminLayout.vue';
+import StaffLayout from '@/layouts/StaffLayout.vue';
 
-// User Pages
-import CariMakanan from '@/pages/user/CariMakanan.vue'
-import RestoranDetail from '@/pages/user/RestoranDetail.vue'
-import Keranjang from '@/pages/user/Keranjang.vue'
-import DaftarRestoran from '@/pages/user/DaftarRestoran.vue'
+// --- Import Public Views ---
+// Pastikan path sesuai dengan struktur Anda (src/views/public)
+import HomeView from '@/views/public/HomeView.vue';
+import MenuView from '@/views/public/MenuView.vue';
+import CartView from '@/views/public/CartView.vue';
+import CheckoutView from '@/views/public/CheckoutView.vue';
+import OrderStatusView from '@/views/public/OrderStatusView.vue';
+import GalleryView from '@/views/public/GalleryView.vue';
+import AboutView from '@/views/public/AboutView.vue';
+import ContactView from '@/views/public/ContactView.vue';
+import AuthView from '@/views/public/AuthView.vue';
+import NotFoundView from '@/views/public/NotFoundView.vue'; // Halaman 404
 
-// Karyawan Pages (renamed from penjual)
-import HomeKaryawan from '@/pages/karyawan/HomeKaryawan.vue'
-import TambahRestoran from '@/pages/karyawan/TambahRestoran.vue'
-import RestoranSaya from '@/pages/karyawan/RestoranSaya.vue'
-import TambahMenu from '@/pages/karyawan/TambahMenu.vue'
-
-// Admin Pages
-import Dashboard from '@/pages/admin/Dashboard.vue'
-import VerifikasiRestoran from '@/pages/admin/VerifikasiRestoran.vue'
-import Laporan from '@/pages/admin/Laporan.vue'
-
+// --- Define Routes ---
 const routes = [
-  // === PUBLIK ===
+  // Rute Publik (menggunakan DefaultLayout)
   {
     path: '/',
-    name: 'Home',
-    component: Home,
-    meta: { title: 'Home' }
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login,
-    meta: { title: 'Login', guest: true }
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register,
-    meta: { title: 'Register', guest: true }
-  },
-  {
-    path: '/profil',
-    name: 'Profil',
-    component: Profil,
-    meta: { title: 'Profil', requiresAuth: true }
+    component: DefaultLayout, // Semua child route ini akan menggunakan DefaultLayout
+    children: [
+      {
+        path: '', // Rute untuk '/'
+        name: 'Home',
+        component: HomeView,
+      },
+      {
+        path: 'menu',
+        name: 'Menu',
+        component: MenuView,
+      },
+      {
+        path: 'cart',
+        name: 'Cart',
+        component: CartView,
+        // Keranjang bisa diakses user yang login
+        meta: { requiresAuth: true, allowedRoles: ['user', 'admin', 'karyawan'] },
+      },
+      {
+        path: 'checkout',
+        name: 'Checkout',
+        component: CheckoutView,
+        // Checkout hanya bisa diakses user yang login
+        meta: { requiresAuth: true, allowedRoles: ['user', 'admin', 'karyawan'] },
+      },
+      {
+        path: 'my-orders',
+        name: 'MyOrders',
+        component: OrderStatusView,
+        // Status pesanan hanya untuk user yang login
+        meta: { requiresAuth: true, allowedRoles: ['user'] },
+      },
+      {
+        path: 'gallery',
+        name: 'Gallery',
+        component: GalleryView,
+      },
+      {
+        path: 'about',
+        name: 'About',
+        component: AboutView,
+      },
+      {
+        path: 'contact',
+        name: 'Contact',
+        component: ContactView,
+      },
+      // Tambahkan rute publik lainnya di sini jika ada
+    ],
   },
 
-  // === USER ===
+  // Rute Otentikasi (AuthView, tidak menggunakan DefaultLayout penuh)
   {
-    path: '/cari',
-    name: 'CariMakanan',
-    component: CariMakanan,
-    meta: { title: 'Cari Makanan' }
-  },
-  {
-    path: '/restoran/:id',
-    name: 'RestoranDetail',
-    component: RestoranDetail,
-    meta: { title: 'Detail Restoran' },
-    props: true
-  },
-  {
-    path: '/keranjang',
-    name: 'Keranjang',
-    component: Keranjang,
-    meta: { title: 'Keranjang', requiresAuth: true }
-  },
-  {
-    path: '/restoran',
-    name: 'DaftarRestoran',
-    component: DaftarRestoran,
-    meta: { title: 'Daftar Restoran' }
-  },
-
-  // === KARYAWAN === (updated from penjual)
-  {
-    path: '/karyawan',
-    name: 'HomeKaryawan',
-    component: HomeKaryawan,
-    meta: { 
-      title: 'Dashboard Karyawan', 
-      requiresAuth: true, 
-      role: ['karyawan'] // Backward compatible
-    }
-  },
-  {
-    path: '/karyawan/tambah-restoran',
-    name: 'TambahRestoran',
-    component: TambahRestoran,
-    meta: { 
-      title: 'Tambah Restoran', 
-      requiresAuth: true, 
-      role: ['karyawan'] // Backward compatible
-    }
-  },
-  {
-    path: '/karyawan/restoran-saya',
-    name: 'RestoranSaya',
-    component: RestoranSaya,
-    meta: { 
-      title: 'Restoran Saya', 
-      requiresAuth: true, 
-      role: ['karyawan', 'penjual'] // Backward compatible
-    }
-  },
-  {
-    path: '/karyawan/tambah-menu/:id',
-    name: 'TambahMenu',
-    component: TambahMenu,
-    meta: { 
-      title: 'Tambah Menu', 
-      requiresAuth: true, 
-      role: ['karyawan', 'penjual'] // Backward compatible
+    path: '/auth',
+    name: 'Auth',
+    component: AuthView,
+    meta: {
+      // Jika user sudah login, tidak perlu ke halaman auth lagi
+      // Bisa redirect ke home atau dashboard sesuai role
+      redirectIfLoggedIn: true,
     },
-    props: true
   },
 
-  // === ADMIN ===
+  // Rute Admin (menggunakan AdminLayout)
   {
-    path: '/admin/dashboard',
-    name: 'Dashboard',
-    component: Dashboard,
-    meta: { title: 'Dashboard Admin', requiresAuth: true, role: 'admin' }
-  },
-  {
-    path: '/admin/verifikasi',
-    name: 'VerifikasiRestoran',
-    component: VerifikasiRestoran,
-    meta: { title: 'Verifikasi Restoran', requiresAuth: true, role: 'admin' }
-  },
-  {
-    path: '/admin/laporan',
-    name: 'Laporan',
-    component: Laporan,
-    meta: { title: 'Laporan', requiresAuth: true, role: 'admin' }
+    path: '/admin',
+    component: AdminLayout, // Semua child route ini akan menggunakan AdminLayout
+    // Meta field untuk proteksi rute: hanya admin yang bisa akses
+    meta: { requiresAuth: true, allowedRoles: ['admin'] },
+    children: [
+      {
+        path: '', // Rute untuk '/admin'
+        name: 'AdminDashboard',
+        component: () => import('@/views/admin/AdminDashboard.vue'), // Lazy load
+      },
+      {
+        path: 'menu-management',
+        name: 'AdminMenuManagement',
+        component: () => import('@/views/admin/AdminMenuManagement.vue'), // Lazy load
+      },
+      {
+        path: 'user-management',
+        name: 'AdminUserManagement',
+        component: () => import('@/views/admin/AdminUserManagement.vue'), // Lazy load
+      },
+      {
+        path: 'order-management',
+        name: 'AdminOrderManagement',
+        component: () => import('@/views/admin/AdminOrderManagement.vue'), // Lazy load
+      },
+      {
+        path: 'reservation-management',
+        name: 'AdminReservationManagement',
+        component: () => import('@/views/admin/AdminReservationManagement.vue'), // Lazy load
+      },
+      {
+        path: 'reports',
+        name: 'AdminReports',
+        component: () => import('@/views/admin/AdminReports.vue'), // Lazy load
+      },
+      {
+        path: 'settings', // Contoh halaman pengaturan admin
+        name: 'AdminSettings',
+        component: () => import('@/views/admin/AdminSettings.vue'), // Pastikan Anda membuat komponen ini
+      },
+    ],
   },
 
-  // === BACKWARD COMPATIBILITY REDIRECTS ===
+  // Rute Karyawan (menggunakan StaffLayout)
   {
-    path: '/penjual',
-    redirect: '/karyawan'
+    path: '/staff',
+    component: StaffLayout, // Semua child route ini akan menggunakan StaffLayout
+    // Meta field untuk proteksi rute: karyawan dan admin bisa akses
+    meta: { requiresAuth: true, allowedRoles: ['karyawan', 'admin'] },
+    children: [
+      {
+        path: '', // Rute untuk '/staff'
+        name: 'StaffDashboard',
+        component: () => import('@/views/staff/StaffDashboard.vue'), // Lazy load
+      },
+      {
+        path: 'order-management',
+        name: 'StaffOrderManagement',
+        component: () => import('@/views/staff/StaffOrderManagement.vue'), // Lazy load
+      },
+      {
+        path: 'menu-view', // Karyawan hanya melihat menu, tidak mengelola
+        name: 'StaffMenuView',
+        component: () => import('@/views/public/MenuView.vue'), // Bisa pakai komponen Menu yang sama
+      },
+      {
+        path: 'table-management', // Path untuk manajemen meja
+        name: 'StaffTableManagement',
+        component: () => import('@/views/staff/StaffTableManagement.vue'),
+      },
+      // Tambahkan rute karyawan lainnya di sini jika ada
+    ],
   },
-  {
-    path: '/penjual/tambah-restoran',
-    redirect: '/karyawan/tambah-restoran'
-  },
-  {
-    path: '/penjual/restoran-saya',
-    redirect: '/karyawan/restoran-saya'
-  },
-  {
-    path: '/penjual/tambah-menu/:id',
-    redirect: to => ({ path: `/karyawan/tambah-menu/${to.params.id}` })
-  }
-]
 
+  // Catch-all 404 Not Found
+  {
+    path: '/:pathMatch(.*)*', // Ini harus diletakkan paling akhir
+    name: 'NotFound',
+    component: NotFoundView,
+  },
+];
+
+// --- Create Router Instance ---
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(), // Menggunakan history mode untuk URL yang bersih
   routes,
-  scrollBehavior() {
-    return { top: 0 }
-  }
-})
+  // Opsi scroll behavior (opsional, untuk mengontrol posisi scroll saat navigasi)
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { top: 0, behavior: 'smooth' }; // Scroll ke atas setiap kali navigasi
+    }
+  },
+});
 
-// Auth guard
+// --- Navigation Guards ---
+// Ini adalah bagian KRUSIAL untuk otentikasi dan otorisasi
 router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore()
-  const isAuthenticated = authStore.user !== null
-  const userRole = authStore.user?.role
+  const authStore = useAuthStore(); // Ambil instance store auth
 
-  // Set document title
-  document.title = to.meta.title ? `${to.meta.title} | FoodOrder` : 'FoodOrder'
+  const requiresAuth = to.meta.requiresAuth; // Cek apakah rute butuh autentikasi
+  const allowedRoles = to.meta.allowedRoles; // Cek role yang diizinkan
 
-  // Check if route requires auth
-  if (to.meta.requiresAuth && !isAuthenticated) {
-    return next('/login')
+  // 1. Cek apakah user sudah login tapi mencoba akses halaman Auth
+  if (to.meta.redirectIfLoggedIn && authStore.isAuthenticated) {
+    if (authStore.isAdmin) {
+      next({ name: 'AdminDashboard' }); // Redirect ke dashboard admin
+    } else if (authStore.isKaryawan) {
+      next({ name: 'StaffDashboard' }); // Redirect ke dashboard karyawan
+    } else {
+      next({ name: 'Home' }); // Redirect ke beranda user
+    }
+    return; // Hentikan proses navigasi
   }
 
-  // Check if route is guest-only
-  if (to.meta.guest && isAuthenticated) {
-    return next('/')
+  // 2. Cek apakah rute memerlukan autentikasi
+  if (requiresAuth && !authStore.isAuthenticated) {
+    // Jika butuh login tapi belum login, redirect ke halaman login
+    alert('Anda perlu login untuk mengakses halaman ini.');
+    next({ name: 'Auth' });
+    return; // Hentikan proses navigasi
   }
 
-  // Check role permissions
-  if (to.meta.role) {
-    const allowedRoles = Array.isArray(to.meta.role) ? to.meta.role : [to.meta.role]
-    
-    // Handle backward compatibility for penjual -> karyawan
-    const effectiveRole = userRole === 'penjual' ? 'karyawan' : userRole
-    
-    if (!allowedRoles.includes(effectiveRole)) {
-      return next('/')
+  // 3. Cek otorisasi berdasarkan role
+  if (requiresAuth && authStore.isAuthenticated && allowedRoles) {
+    // Jika butuh login, sudah login, dan ada allowedRoles, cek apakah role user diizinkan
+    if (!allowedRoles.includes(authStore.user?.role)) {
+      // Jika role tidak diizinkan
+      alert('Anda tidak memiliki izin untuk mengakses halaman ini.');
+      // Redirect ke halaman yang sesuai dengan role atau halaman utama
+      if (authStore.isAdmin) {
+        next({ name: 'AdminDashboard' });
+      } else if (authStore.isKaryawan) {
+        next({ name: 'StaffDashboard' });
+      } else {
+        next({ name: 'Home' });
+      }
+      return; // Hentikan proses navigasi
     }
   }
 
-  next()
-})
+  // Jika semua cek berhasil, lanjutkan navigasi
+  next();
+});
 
-export default router
+export default router;
