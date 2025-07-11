@@ -1,0 +1,70 @@
+/* ============================================= */
+/* 1. CSS Custom Properties (Variables) */
+/* ============================================= */
+/* Mendefinisikan variabel global untuk tema warna dan font.
+  Ini membuat perubahan tema menjadi sangat mudah, cukup ubah di satu tempat.
+*/
+:root {
+    --color-primary: #ff6347; /* Oranye Tomat */
+    --color-primary-dark: #e5533d;
+    --color-secondary: #28a745; /* Hijau */
+    --color-secondary-dark: #218838;
+  
+    --color-heading: #333333;
+    --color-text: #555555;
+    --color-background: #f9f9f9;
+    --color-surface: #ffffff; /* Warna untuk 'permukaan' seperti kartu */
+    --color-border: #e0e0e0;
+    --color-white: #ffffff;
+  
+    --font-family-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  
+  /* ============================================= */
+  /* 2. CSS Reset dan Gaya Dasar          */
+  /* ============================================= */
+  
+  /* Reset dasar untuk menghapus margin/padding default browser
+    dan mengatur box-sizing agar layout lebih intuitif.
+  */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Gaya dasar yang diterapkan pada elemen <body>.
+    Menggunakan variabel yang telah didefinisikan di :root.
+  */
+  body {
+    min-height: 100vh;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-family-base);
+    font-size: 16px;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Menghilangkan garis bawah default pada link dan memberi warna primer.
+  */
+  a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  a:hover {
+    color: var(--color-primary-dark);
+  }
+  
+  /* Gaya dasar untuk heading */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-heading);
+    font-weight: 700;
+  }
