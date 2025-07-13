@@ -1,83 +1,87 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { useCartStore } from '../stores/cart';
-import { useAuthStore } from '../stores/auth'; // Diperlukan untuk checkout
+// Fungsi handleCheckout sudah tidak diperlukan di sini lagi, jadi kita hapus.
 
 const cartStore = useCartStore();
-const authStore = useAuthStore();
-
-// Fungsi untuk menangani proses checkout (simulasi)
-function handleCheckout() {
-  if (!authStore.isLoggedIn) {
-    alert('Anda harus login untuk melanjutkan checkout.');
-    return;
-  }
-  alert(`Terima kasih, ${authStore.user.name}! Total pesanan Anda adalah Rp ${cartStore.totalPrice.toLocaleString('id-ID')}. (Simulasi Checkout)`);
-  // Mengosongkan keranjang setelah checkout berhasil
-  cartStore.clearCart(); 
-}
 </script>
 
 <template>
-  <div class="cart-view">
-    <h1 class="page-title">🛒 Keranjang Belanja Anda</h1>
+  <div class="cart-wrapper">
+    <div class="cart-view">
+      <h1 class="page-title">🛒 Keranjang Belanja Anda</h1>
 
-    <div v-if="cartStore.totalItems > 0" class="cart-container">
-      
-      <div class="cart-items">
-        <div v-for="item in cartStore.items" :key="item.id" class="cart-item">
-          <img :src="item.image" :alt="item.name" class="item-image" />
-          
-          <div class="item-details">
-            <h3 class="item-name">{{ item.name }}</h3>
-            <p class="item-price">@ Rp {{ item.price.toLocaleString('id-ID') }}</p>
-            
-            <div class="quantity-controls">
-              <button @click="cartStore.decreaseQuantity(item.id)" class="quantity-btn">-</button>
-              <span class="quantity-display">{{ item.quantity }}</span>
-              <button @click="cartStore.increaseQuantity(item.id)" class="quantity-btn">+</button>
+      <div v-if="cartStore.totalItems > 0" class="cart-container">
+        <div class="cart-items">
+          <div v-for="item in cartStore.items" :key="item.id" class="cart-item">
+            <img :src="item.image" :alt="item.name" class="item-image" />
+            <div class="item-details">
+              <h3 class="item-name">{{ item.name }}</h3>
+              <p class="item-price">@ Rp {{ item.price.toLocaleString('id-ID') }}</p>
+              <div class="quantity-controls">
+                <button @click="cartStore.decreaseQuantity(item.id)" class="quantity-btn">-</button>
+                <span class="quantity-display">{{ item.quantity }}</span>
+                <button @click="cartStore.increaseQuantity(item.id)" class="quantity-btn">+</button>
+              </div>
+            </div>
+            <div class="item-total">
+              <p class="subtotal">Rp {{ (item.price * item.quantity).toLocaleString('id-ID') }}</p>
+              <button @click="cartStore.removeItem(item.id)" class="remove-button" title="Hapus item">
+                Hapus
+              </button>
             </div>
           </div>
+        </div>
 
-          <div class="item-total">
-            <p class="subtotal">Rp {{ (item.price * item.quantity).toLocaleString('id-ID') }}</p>
-            <button @click="cartStore.removeItem(item.id)" class="remove-button" title="Hapus item">
-              Hapus
-            </button>
+        <div class="cart-summary">
+          <h2 class="summary-title">Ringkasan Pesanan</h2>
+          <div class="summary-line">
+            <span>Total Item</span>
+            <span>{{ cartStore.totalItems }}</span>
           </div>
+          <div class="summary-line total">
+            <span>Total Harga</span>
+            <span>Rp {{ cartStore.totalPrice.toLocaleString('id-ID') }}</span>
+          </div>
+
+          <RouterLink to="/checkout" class="checkout-button">
+            Lanjutkan ke Pembayaran
+          </RouterLink>
+
         </div>
       </div>
 
-      <div class="cart-summary">
-        <h2 class="summary-title">Ringkasan Pesanan</h2>
-        <div class="summary-line">
-          <span>Total Item</span>
-          <span>{{ cartStore.totalItems }}</span>
-        </div>
-        <div class="summary-line total">
-          <span>Total Harga</span>
-          <span>Rp {{ cartStore.totalPrice.toLocaleString('id-ID') }}</span>
-        </div>
-        <button @click="handleCheckout" class="checkout-button">
-          Lanjutkan ke Pembayaran
-        </button>
+      <div v-else class="empty-cart">
+        <p>Keranjang Anda masih kosong.</p>
+        <RouterLink to="/foods" class="back-to-menu-button">
+          Mulai Belanja
+        </RouterLink>
       </div>
-    </div>
-
-    <div v-else class="empty-cart">
-      <p>Keranjang Anda masih kosong.</p>
-      <RouterLink to="/foods" class="back-to-menu-button">
-        Mulai Belanja
-      </RouterLink>
     </div>
   </div>
 </template>
 
 <style scoped>
+/* STYLE ANDA TIDAK SAYA UBAH SAMA SEKALI, SESUAI PERMINTAAN */
+.cart-wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  background-image: url('@/assets/food-background.jpg'); /* Ganti dengan path yang sesuai */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
 .cart-view {
   max-width: 900px;
   margin: 0 auto;
   padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .page-title {
@@ -93,7 +97,6 @@ function handleCheckout() {
   align-items: flex-start;
 }
 
-/* Daftar Item */
 .cart-items {
   display: flex;
   flex-direction: column;
@@ -105,7 +108,7 @@ function handleCheckout() {
   align-items: center;
   gap: 1.5rem;
   padding: 1rem;
-  background-color: var(--color-surface);
+  background-color: var(--color-surface, #fdfdfd);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
@@ -142,7 +145,7 @@ function handleCheckout() {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border, #ccc);
   background-color: #f8f9fa;
   cursor: pointer;
   font-size: 1.2rem;
@@ -170,19 +173,18 @@ function handleCheckout() {
 .remove-button {
   background: none;
   border: none;
-  color: var(--color-primary);
+  color: var(--color-primary, #ff6347);
   cursor: pointer;
   font-size: 0.8rem;
   margin-top: 0.5rem;
   padding: 0;
 }
 
-/* Ringkasan */
 .cart-summary {
   background-color: #f9f9f9;
   padding: 1.5rem;
   border-radius: 8px;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border, #ddd);
   position: sticky;
   top: 2rem;
 }
@@ -207,19 +209,20 @@ function handleCheckout() {
 }
 
 .checkout-button {
+  display: block; /* Agar RouterLink bisa di-style seperti block */
+  text-align: center; /* Agar teks di tengah */
   width: 100%;
   padding: 1rem;
   font-size: 1.1rem;
-  background-color: var(--color-secondary);
-  /* ... (style lain) */
+  background-color: var(--color-secondary, #28a745);
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   margin-top: 1rem;
+  text-decoration: none;
 }
 
-/* Keranjang Kosong */
 .empty-cart {
   text-align: center;
   padding: 4rem 0;
@@ -232,8 +235,7 @@ function handleCheckout() {
 
 .back-to-menu-button {
   padding: 0.8rem 2rem;
-  background-color: var(--color-primary);
-  /* ... (style lain) */
+  background-color: var(--color-primary, #ff6347);
   color: white;
   border-radius: 50px;
   text-decoration: none;

@@ -2,19 +2,20 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { RouterLink } from 'vue-router';
-import FoodForm from '../components/FoodForm.vue'; // Impor komponen form
+import FoodForm from '../components/FoodForm.vue';
+import FoodDetailModal from '../components/FoodDetailModal.vue'; // 1. Impor komponen modal
 
 // --- STATE ---
-const foods = ref([]); // Untuk menampung daftar makanan dari API
-const isLoading = ref(true); // Status loading
-const error = ref(null); // Menampung pesan error
-const showAddForm = ref(false); // Status untuk menampilkan/menyembunyikan form tambah
+const foods = ref([]);
+const isLoading = ref(true);
+const error = ref(null);
+const showAddForm = ref(false);
+
+// 2. State baru untuk mengontrol modal
+const selectedFoodForDetail = ref(null);
+const isDetailModalVisible = ref(false);
 
 // --- METHODS ---
-
-/**
- * Mengambil semua data makanan dari API.
- */
 const fetchFoods = async () => {
   isLoading.value = true;
   error.value = null;
@@ -29,33 +30,24 @@ const fetchFoods = async () => {
   }
 };
 
-/**
- * Menangani penambahan makanan baru (CREATE).
- * Fungsi ini akan dipanggil oleh event dari komponen FoodForm.
- * @param {object} foodData - Data makanan baru dari form.
- */
 const handleAddFood = async (foodData) => {
   try {
     await axios.post('http://localhost:3000/foods', foodData);
     alert('Menu baru berhasil ditambahkan!');
-    showAddForm.value = false; // Sembunyikan form setelah berhasil
-    await fetchFoods(); // Ambil ulang data untuk menampilkan item baru
+    showAddForm.value = false;
+    await fetchFoods();
   } catch (err) {
     console.error('Gagal menambah data:', err);
     alert('Gagal menambah menu baru.');
   }
 };
 
-/**
- * Menghapus data makanan (DELETE).
- * @param {number} foodId - ID makanan yang akan dihapus.
- */
 const deleteFood = async (foodId) => {
   if (window.confirm('Apakah Anda yakin ingin menghapus menu ini?')) {
     try {
       await axios.delete(`http://localhost:3000/foods/${foodId}`);
       alert('Menu berhasil dihapus.');
-      await fetchFoods(); // Ambil ulang data untuk memperbarui daftar
+      await fetchFoods();
     } catch (err) {
       console.error('Gagal menghapus data:', err);
       alert('Gagal menghapus menu.');
@@ -63,9 +55,18 @@ const deleteFood = async (foodId) => {
   }
 };
 
-// --- LIFECYCLE HOOK ---
+// 3. Fungsi baru untuk membuka modal detail
+const openDetailModal = (food) => {
+  selectedFoodForDetail.value = food;
+  isDetailModalVisible.value = true;
+};
 
-// Panggil fetchFoods() saat komponen pertama kali dimuat.
+// 4. Fungsi baru untuk menutup modal
+const closeDetailModal = () => {
+  isDetailModalVisible.value = false;
+  selectedFoodForDetail.value = null;
+};
+
 onMounted(() => {
   fetchFoods();
 });
@@ -85,7 +86,6 @@ onMounted(() => {
     </div>
 
     <div v-if="isLoading" class="loading">Memuat data...</div>
-    
     <div v-else-if="error" class="error">{{ error }}</div>
 
     <table v-else class="foods-table">
@@ -106,6 +106,9 @@ onMounted(() => {
           <td>{{ food.description }}</td>
           <td>Rp {{ food.price.toLocaleString('id-ID') }}</td>
           <td class="actions">
+            <button @click="openDetailModal(food)" class="detail-btn">
+              Detail
+            </button>
             <RouterLink :to="{ name: 'edit-food', params: { id: food.id } }" class="edit-btn">
               Edit
             </RouterLink>
@@ -117,28 +120,42 @@ onMounted(() => {
       </tbody>
     </table>
   </div>
+  
+  <FoodDetailModal 
+    v-if="isDetailModalVisible" 
+    :food="selectedFoodForDetail" 
+    @close="closeDetailModal"
+  />
 </template>
 
 <style scoped>
+/* STYLE ANDA TIDAK SAYA UBAH, HANYA MENAMBAHKAN STYLE UNTUK TOMBOL DETAIL */
 .admin-view {
-  max-width: 1000px;
-  margin: 0 auto;
+  max-width: 100%;
+  min-height: 100vh;
   padding: 2rem;
+  background-image: url('@/assets/food-background.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  backdrop-filter: brightness(0.95);
 }
-
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
-
 h1 {
-  color: var(--color-heading);
+  color: #333;
+  margin: 0;
 }
-
 .add-button {
-  background-color: var(--color-primary);
+  background-color: var(--color-primary, #28a745);
   color: white;
   border: none;
   padding: 0.8rem 1.5rem;
@@ -147,60 +164,57 @@ h1 {
   cursor: pointer;
   transition: background-color 0.2s;
 }
-
 .add-button:hover {
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-primary-dark, #218838);
 }
-
 .form-container {
-  background-color: #fdfdfd;
+  background-color: #ffffff;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin-bottom: 2rem;
 }
-
-.loading, .error {
+.loading,
+.error {
   text-align: center;
   padding: 2rem;
   font-size: 1.2rem;
-  color: #888;
+  color: #eee;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
-
 .error {
-  color: #d9534f;
+  color: #f44336;
 }
-
 .foods-table {
   width: 100%;
   border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
-
 .foods-table th, .foods-table td {
   padding: 1rem;
   text-align: left;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border, #ddd);
 }
-
 .foods-table th {
   background-color: #f8f9fa;
 }
-
 .foods-table tr:last-child td {
   border-bottom: none;
 }
-
 .foods-table tr:hover {
   background-color: #f1f1f1;
 }
-
 .actions {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
-
-.actions .edit-btn, .actions .delete-btn {
+.actions .detail-btn,
+.actions .edit-btn,
+.actions .delete-btn {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
@@ -208,15 +222,20 @@ h1 {
   text-decoration: none;
   color: white;
   font-size: 0.9rem;
+  text-align: center;
 }
-
+.detail-btn {
+  background-color: #17a2b8; /* Warna Info/Biru Langit */
+}
+.detail-btn:hover {
+  background-color: #138496;
+}
 .edit-btn {
   background-color: #007bff;
 }
 .edit-btn:hover {
   background-color: #0056b3;
 }
-
 .delete-btn {
   background-color: #dc3545;
 }

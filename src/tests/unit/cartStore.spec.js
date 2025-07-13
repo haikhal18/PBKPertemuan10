@@ -1,6 +1,6 @@
 import { setActivePinia, createPinia } from 'pinia';
-import { useCartStore } from '../../stores/cart.js'; // <-- Diperbaiki
-import { useAuthStore } from '../../stores/auth.js'; // <-- Diperbaiki
+import { useCartStore } from '../../stores/cart.js'; 
+import { useAuthStore } from '../../stores/auth.js'; 
 import { describe, it, expect, beforeEach } from 'vitest';
 
 describe('Cart Store', () => {
@@ -19,7 +19,7 @@ describe('Cart Store', () => {
     authStore.user = { id: 1, name: 'Test User', role: 'user' };
 
     const cartStore = useCartStore();
-    const mockFood = { id: 1, name: 'Nasi Goreng', price: 25000 };
+    const mockFood = { id: 1, name: 'Nasi Goreng', price: 25000,quantity: 1 };
     cartStore.addItem(mockFood);
 
     expect(cartStore.items).toHaveLength(1);

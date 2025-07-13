@@ -31,7 +31,6 @@ onMounted(() => {
 
 .main-content {
   flex-grow: 1;
-  padding: 2rem;
   width: 100%;
 }
 </style>

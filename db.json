@@ -1,25 +1,46 @@
 {
   "foods": [
     {
-      "id": 1,
-      "name": "Nasi Goreng Spesial",
-      "description": "Nasi goreng kampung dengan telur mata sapi, ayam suwir, dan kerupuk udang.",
+      "id": "1",
+      "name": "Burger Sapi Spesial",
+      "description": "Roti lembut isi daging sapi panggang, keju cheddar, selada, dan saus rahasia.",
       "price": 25000,
-      "image": "https://images.unsplash.com/photo-1599558156182-a74580909e13?q=80&w=1974&auto=format&fit=crop"
+      "image": "https://images.unsplash.com/photo-1606756796079-96dd6e23f1aa?q=80&w=1974&auto=format&fit=crop"
     },
     {
-      "id": 2,
-      "name": "Mie Ayam Jamur Bakso",
-      "description": "Mie kenyal dengan topping ayam jamur gurih, bakso sapi, dan sawi hijau segar.",
+      "id": "2",
+      "name": "Fried Chicken Krispi",
+      "description": "Ayam goreng krispi bumbu khas, renyah di luar, juicy di dalam.",
       "price": 22000,
-      "image": "https://images.unsplash.com/photo-1626084474322-58849b34c03b?q=80&w=1974&auto=format&fit=crop"
+      "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=1974&auto=format&fit=crop"
     },
     {
-      "id": 3,
-      "name": "Sate Ayam Madura",
-      "description": "10 tusuk sate ayam empuk dibakar sempurna dengan bumbu kacang khas Madura yang medok.",
-      "price": 28000,
-      "image": "https://images.unsplash.com/photo-1603814859828-559a45f969b3?q=80&w=1974&auto=format&fit=crop"
+      "id": "3",
+      "name": "Hotdog Jumbo",
+      "description": "Sosis jumbo dengan roti lembut, saus tomat, mustard, dan bawang goreng.",
+      "price": 18000,
+      "image": "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1974&auto=format&fit=crop"
+    },
+    {
+      "id": "4",
+      "name": "Pizza Pepperoni Mini",
+      "description": "Pizza ukuran personal dengan topping pepperoni, keju mozarella, dan saus tomat spesial.",
+      "price": 27000,
+      "image": "https://images.unsplash.com/photo-1601924582975-4aa3c0f1d37e?q=80&w=1974&auto=format&fit=crop"
+    },
+    {
+      "id": "5",
+      "name": "Kentang Goreng",
+      "description": "Kentang goreng renyah, cocok dinikmati dengan saus tomat dan keju leleh.",
+      "price": 15000,
+      "image": "https://images.unsplash.com/photo-1550547660-8b2da9435b74?q=80&w=1974&auto=format&fit=crop"
+    },
+    {
+      "id": "6",
+      "name": "Nugget Ayam",
+      "description": "6 pcs nugget ayam goreng krispi, cocok untuk camilan atau makan siang ringan.",
+      "price": 16000,
+      "image": "https://images.unsplash.com/photo-1628840042765-356180746d68?q=80&w=1974&auto=format&fit=crop"
     }
   ],
   "users": [
